@@ -176,6 +176,7 @@ export default class DatMiddleware {
         } catch (_) {}
 
         this.dispatch({ type: 'DAT_METADATA', key, metadata })
+        publishDat(metadata)
       })
 
       dat.stats.on('update', stats => {
@@ -210,6 +211,10 @@ export default class DatMiddleware {
       this.appendDatInternally(key, dat, path, opts)
       this.storeOnDisk()
     })
+  }
+
+  publishDat(datJson) {
+    console.log(datJson)
   }
 
   updateProgress (dat, key, stats) {
@@ -380,6 +385,38 @@ export default class DatMiddleware {
         this.updateState(dat)
       })
     })
+  }
+
+  login (opts) {
+    var Registry = require('../../registry')
+    
+    opts.server = {'server': 'database.org'}
+
+    user = {
+      'email': 'omkar@wynum.com',
+      'password': 'DatRegistry'
+    }
+
+    var client = Registry(opts)
+    client.login({
+      email: user.email,
+      password: user.password
+    }, function (err, resp, body) {
+      if (err && err.message) return exitErr(err.message)
+      else if (err) return exitErr(err.toString())
+
+      console.log(output(`
+        Logged you in to ${opts.server}!
+
+        Now you can publish dats and share:
+        * Run ${`dat publish`} to publish a dat!
+        * View & Share your dats at ${opts.server}
+      `))
+    })
+
+    function exitErr (err) {
+      console.error(err)
+    }
   }
 
   async loadFromDisk () {
