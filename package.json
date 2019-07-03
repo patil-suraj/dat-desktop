@@ -72,6 +72,8 @@
     "dat-encoding": "^5.0.1",
     "dat-icons": "^2.5.2",
     "dat-node": "^3.5.8",
+    "dat-registry": "^4.0.1",
+    "dat-json": "^1.0.3",
     "electron-default-menu": "^1.0.1",
     "minimist": "^1.2.0",
     "mirror-folder": "^3.0.0",
